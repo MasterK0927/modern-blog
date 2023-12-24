@@ -1,0 +1,121 @@
+.container {
+  margin-top: 50px;
+  padding: 20px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--softTextColor);
+}
+
+.info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.img{
+  border-radius: 50%;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logoText {
+  font-size: 24px;
+}
+
+.desc {
+  font-weight: 300;
+}
+
+.icons {
+  margin-top: 10px;
+  display: flex;
+  gap: 15px;
+}
+
+.links {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 100px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-weight: 300;
+}
+
+.listTitle {
+  font-weight: bold;
+}
+
+.listLink{
+  padding: 1px;
+  background-color: aliceblue;
+  border-radius: 100%;
+}
+.listLinks{
+  border-radius: 100%;
+  transform: scale(1.5);
+}
+
+.listLink:hover {
+  cursor: pointer;
+  color: var(--primaryColor);
+  transform: scale(1.2);
+  padding: 0px;
+  border: 2px solid burlywood;
+}
+.listLinks:hover {
+  cursor: pointer;
+  color: var(--primaryColor);
+  transform: scale(1.7);
+}
+
+.link:hover {
+  cursor: pointer;
+  color: var(--primaryColor);
+  text-shadow: 0px 0px 5px red, 0px 0px 10px red;
+  animation: animate 1s linear infinite;
+}
+
+@keyframes animate {
+  0% {
+    text-shadow: 0px 0px 5px burlywood, 0px 0px 10px bisque;
+  }
+  50% {
+    text-shadow: 0px 0px 5px beige, 0px 0px 20px burlywood;
+  }
+  100% {
+    text-shadow: 0px 0px 5px red, 0px 0px 10px red;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .links {
+    gap: 50px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    gap: 50px;
+  }
+
+  .links {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+@media screen and (max-width: 640px) {
+  .links {
+    font-size: 14px;
+  }
+}

@@ -1,0 +1,158 @@
+.body{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.main{
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
+  flex-wrap: wrap;
+  overflow: hidden;
+}
+
+.main::before{
+  content: '';
+  position: absolute;
+  width: 400px;
+  height: 500px;
+  background: linear-gradient( #000,#0f0, #000);
+  border-radius: 20px;
+  animation: animate 5s linear infinite;
+}
+
+@keyframes animate{
+  0%{
+    filter: hue-rotate(0deg);
+  }
+  100%{
+    filter: hue-rotate(360deg);
+  }
+} 
+
+.container{
+  position: absolute;
+  width: 400px;
+  background-color: #f4f1f12e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 30px 50px 50px 50px;
+  border-radius:20px;
+  box-shadow: 0 15px 35px rgba(0,0,0,.5);
+}
+
+.wrapper{
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 40px;
+  border-radius: 20px;
+}
+
+.heading{
+  font-size: 3em;
+  font-weight: 600;
+  color: #0f0;
+}
+
+.socialButton1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 30px;
+  border-radius: 10px;
+  font-weight: 600;
+  background-color: #f8af06;
+  transition: 1s;
+}
+
+.socialButton1:hover, .socialButton2:hover, .socialButton3:hover {
+  background-color: #0f0;
+  transition: 0s;
+  cursor: pointer;
+}
+
+.socialButton2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 30px;
+  border-radius: 10px;
+  font-weight: 600;
+  background-color: #111;
+  transition: 1s;
+}
+
+.socialButton3 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+  background-color: #087bea;
+  transition: 1s;
+}
+
+.mainBg{
+  position: relative;
+  display: block;
+  width: calc(6.25vw - 2px);
+  height: calc(6.25vw - 2px);
+  background: #18181800;
+  transition: 1.3s;
+}
+
+.mainBg:hover{
+  background: #0f0;
+  transition: 0s;
+}
+
+@media screen and (max-width: 768px) {
+
+  .mainBg{
+    width: calc(12.5vw - 2px);
+    height: calc(12.5vw - 2px);
+  }
+
+  .main::before{
+    height: 428px;
+  }
+
+  .container{
+    padding: 15px 10px 40px 10px;
+    border-radius: 30px;
+  }
+
+  .socialButton1{
+    font-size: 13px;
+    padding: 15px 20px;
+  }
+  .socialButton2{
+    font-size: 13px;
+    padding: 15px 20px;
+  }
+  .socialButton3{
+    font-size: 13px;
+    padding: 15px 15px;
+  }
+
+  .img{
+    width: 35px;
+    height: 35px;
+  }
+}

@@ -1,0 +1,158 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100px;
+  width: 100%;
+  padding: 0 25px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo{
+  position: relative;
+  padding: 5px 0px;
+  overflow: hidden;
+}
+
+
+.logoText {
+  text-align: center;
+  font-size: 36px;
+  font-weight: bold;
+  display: block;
+  transition: 0.5s;
+}
+
+.hiddenLogo{
+  position: absolute;
+  transform: translateY(-100px);
+  transition: 0.5s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.txt{
+  text-align: center;
+  font-size: 36px;
+  font-weight: bold;
+  color: whitesmoke;
+  display: block;
+  text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  transition: 0.5s;
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 20px;
+}
+
+.link{
+  padding: 5px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  transition: 0.5s;
+}
+
+.link:hover {
+  color: burlywood;
+  text-decoration: none;
+  cursor: pointer;
+  transition: 0.3s;
+  transform: translateY(-3px);
+}
+
+.icon{
+  background: #172440ba;
+  border-radius: 100px;
+}
+
+.icon .logoText{
+  transform: translateY(50px);
+}
+
+.icon .hiddenLogo{
+  transform: translateY(-2px);
+}
+
+.hidden{
+  position: absolute;
+  font-size: 1.8em;
+  transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+  transform: translateY(-100px);
+}
+
+
+.icon .hidden{
+  transform: translateY(-8px);
+}
+
+.icon .linkText{
+  transform: translateY(50px);
+}
+
+.icon .link{
+  color: burlywood;
+}
+
+.icon .link:hover{
+  color: rgba(224, 168, 96, 0.619);
+}
+
+
+@media screen and (max-width: 1280px) {
+  .logoText {
+    font-size: 28px;
+  }
+  .container{
+    padding: 0;
+  }
+  .txt{
+    font-size: 28px;
+  }
+
+  .icon{
+    padding: 0 20px;
+  }
+  .icon .hiddenLogo{
+    transform: translateY(-6px);
+  }
+
+  .icon .hiddenImg{
+    width: 100%;
+    height: 45px;
+    border-radius: 100%;
+  }
+  .links {
+    font-size: 18px;
+    gap: 15px;
+  }
+}
+@media screen and (max-width: 1024px) {
+  .social {
+    display: none;
+  }
+  .logo {
+    text-align: left;
+  }
+}
+@media screen and (max-width: 768px) {
+  .logo {
+    font-size: 24px;
+  }
+}
+@media screen and (max-width: 640px) {
+  .links{
+    justify-content: flex-end;
+  }
+  .link {
+    display: none;
+  }
+}
