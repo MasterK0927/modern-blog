@@ -1,10 +1,8 @@
-"use client";
-
-import Image from "next/image";
+'use client'
 import styles from "./writePage.module.css";
 import { useEffect, useState, useRef } from "react";
 import "react-quill/dist/quill.bubble.css";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import { FaPlus } from "react-icons/fa";
 import { MdAddPhotoAlternate } from "react-icons/md";
 import { RiFolderAddFill } from "react-icons/ri";
@@ -30,77 +28,79 @@ const WritePage = () => {
   const [title, setTitle] = useState("");
   const [catSlug, setCatSlug] = useState("");
 
-  const quillRef = useRef();
+  const quillRef = useRef(null);
 
   useEffect(() => {
-    const storage = getStorage(app);
-
-    const upload = async () => {
+    const uploadImage = async () => {
       if (!file) return;
 
-      const name = new Date().getTime() + file.name;
-      const storageRef = ref(storage, name);
+      try {
+        const storage = getStorage(app);
+        const name = new Date().getTime() + file.name;
+        const storageRef = ref(storage, name);
+        const uploadTask = uploadBytesResumable(storageRef, file);
 
-      const uploadTask = uploadBytesResumable(storageRef, file);
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log("Upload is " + progress + "% done");
+            switch (snapshot.state) {
+              case "paused":
+                console.log("Upload is paused");
+                break;
+              case "running":
+                console.log("Upload is running");
+                break;
+            }
+          },
+          (error) => {
+            console.error("Error uploading image:", error);
+          },
+          async () => {
+            try {
+              const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+              setMedia(downloadURL);
 
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log("Upload is " + progress + "% done");
-          switch (snapshot.state) {
-            case "paused":
-              console.log("Upload is paused");
-              break;
-            case "running":
-              console.log("Upload is running");
-              break;
+              // Insert the image into the editor
+              const quill = quillRef.current.getEditor();
+              const range = quill.getSelection(true);
+              quill.insertEmbed(range.index, "image", downloadURL);
+            } catch (error) {
+              console.error("Error getting download URL:", error);
+            }
           }
-        },
-        (error) => {
-          console.error("Error uploading image:", error);
-        },
-        async () => {
-          try {
-            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-            setMedia(downloadURL);
-
-            // Insert the image into the editor
-            const range = quillRef.current.getEditor().getSelection(true);
-            quillRef.current.getEditor().insertEmbed(range.index, "image", downloadURL);
-          } catch (error) {
-            console.error("Error getting download URL:", error);
-          }
-        }
-      );
+        );
+      } catch (error) {
+        console.error("Error uploading image:", error);
+      }
     };
 
-    upload();
+    uploadImage();
   }, [file]);
 
-  if (status === "loading") {
-    return <div className={styles.loading}>Loading...</div>;
-  }
-
-  if (status === "unauthenticated") {
-    router.push("/");
-  }
-
   const handleSubmit = async () => {
-    const res = await fetch("/api/posts", {
-      method: "POST",
-      body: JSON.stringify({
-        title,
-        desc: value,
-        img: media,
-        slug: slugify(title),
-        catSlug: catSlug || "style", //If not selected, choose the general category
-      }),
-    });
+    try {
+      const res = await fetch("/api/posts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title,
+          desc: value,
+          img: media,
+          slug: slugify(title),
+          catSlug: catSlug || "style",
+        }),
+      });
 
-    if (res.status === 200) {
-      const data = await res.json();
-      router.push(`/posts/${data.slug}`);
+      if (res.status === 200) {
+        const data = await res.json();
+        router.push(`/posts/${data.slug}`);
+      }
+    } catch (error) {
+      console.error("Error submitting post:", error);
     }
   };
 
@@ -111,6 +111,14 @@ const WritePage = () => {
       .replace(/[^\w\s-]/g, "")
       .replace(/[\s_-]+/g, "-")
       .replace(/^-+|-+$/g, "");
+
+  if (status === "loading") {
+    return <div className={styles.loading}>Loading...</div>;
+  }
+
+  if (status === "unauthenticated") {
+    router.push("/");
+  }
 
   return (
     <div className={styles.container}>
