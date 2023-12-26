@@ -1,27 +1,21 @@
 import React from "react";
 import styles from "./featured.module.css";
 import Image from "next/image";
+import Link from "next/link";
 
-const Featured = () => {
+const Featured = ({ item, key }) => {
+  console.log("Featured: ", item);
+  const truncatedDesc = item?.desc && typeof item.desc === 'string' ? item.desc.substring(0, 500) : '';
+
   return (
-    <div className={styles.container}>
-      <h1 className={styles.title}>
-        <b>Hey, Keshav here!</b> Discover Stories and creative ideas
-      </h1>
-      <div className={styles.post}>
-        <div className={styles.imgContainer}>
-          <Image src="/p1.jpeg" alt="" fill className={styles.image} />
-        </div>
-        <div className={styles.textContainer}>
-          <h1 className={styles.postTitle}>Lorem ipsum dolor sit amet alim consectetur adipisicing elit.</h1>
-          <p className={styles.postDesc}>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-            Cupiditate, quam nisi magni ea laborum inventore voluptatum
-            laudantium repellat ducimus unde aspernatur fuga. Quo, accusantium
-            quisquam! Harum unde sit culpa debitis.
-          </p>
-          <button className={styles.button}>Read More</button>
-        </div>
+    <div className={styles.post} key={key}>
+      <div className={styles.imgContainer}>
+        <Image src={item.img} alt="" fill className={styles.image} />
+      </div>
+      <div className={styles.textContainer}>
+        <h1 className={styles.postTitle}>{item.title}</h1>
+        <div className={styles.postDesc} dangerouslySetInnerHTML={{ __html: truncatedDesc }} />
+        <Link href={`/posts/${item.slug}`} className={styles.link}><button className={styles.button}>Read More</button></Link>
       </div>
     </div>
   );
