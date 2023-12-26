@@ -1,3 +1,6 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -42,8 +45,8 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  posts         Post[]
-  comments      Comment[]
+  Post          Post[]
+  Comment       Comment[]
 }
 
 model VerificationToken {
@@ -59,7 +62,7 @@ model Category {
   slug  String  @unique
   title String
   img   String?
-  posts Post[]   // Fix: Change from Posts to posts
+  Posts Post[]
 }
 
 model Post {
