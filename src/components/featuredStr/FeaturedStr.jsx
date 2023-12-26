@@ -1,5 +1,4 @@
 'use client'
-// FeaturedStr.js
 import React from "react";
 import useSWR from "swr";
 import Featured from "../featured/Featured";
@@ -33,9 +32,9 @@ const FeaturedStr = ({ cat }) => {
       </h1>
       <div>
         {isValidating && <p>Loading...</p>}
-        {data &&
-          Array.isArray(data.posts) &&
-          data.posts.map((item) => <Featured item={item} key={item._id} />)}
+        {data && Array.isArray(data.posts) && data.posts.length > 0 && (
+          <Featured item={data.posts[1]} key={data.posts[1]._id} />
+        )}
         {!isValidating && (!data || data.posts.length === 0) && (
           <p>No posts available.</p>
         )}

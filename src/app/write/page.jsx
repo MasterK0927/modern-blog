@@ -1,8 +1,7 @@
 'use client'
-import styles from "./writePage.module.css";
 import { useEffect, useState, useRef } from "react";
+import dynamic from "next/dynamic";
 import "react-quill/dist/quill.bubble.css";
-import { useRouter } from "next/router";
 import { FaPlus } from "react-icons/fa";
 import { MdAddPhotoAlternate } from "react-icons/md";
 import { RiFolderAddFill } from "react-icons/ri";
@@ -15,12 +14,12 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import { app } from "@/utils/firebase";
-import ReactQuill from "react-quill";
+
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false }); // Use dynamic import for ReactQuill
+import styles from "./writePage.module.css";
 
 const WritePage = () => {
-  const { status } = useSession();
-  const router = useRouter();
-
+  const { data: session } = useSession();
   const [open, setOpen] = useState(false);
   const [file, setFile] = useState(null);
   const [media, setMedia] = useState("");
@@ -112,12 +111,14 @@ const WritePage = () => {
       .replace(/[\s_-]+/g, "-")
       .replace(/^-+|-+$/g, "");
 
-  if (status === "loading") {
+  if (session === undefined) {
     return <div className={styles.loading}>Loading...</div>;
   }
 
-  if (status === "unauthenticated") {
+  if (!session) {
+    // Redirect to the login page if not authenticated
     router.push("/");
+    return null;
   }
 
   return (
