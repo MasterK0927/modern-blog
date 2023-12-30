@@ -2,6 +2,10 @@
   cursor: pointer;
 }
 
+.linked {
+  cursor: pointer;
+}
+
 .burger {
   width: 20px;
   height: 16px;
