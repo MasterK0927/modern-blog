@@ -147,6 +147,18 @@
   .logo {
     font-size: 24px;
   }
+
+  .icon{
+    height:60px;
+  }
+
+  .icon .hiddenLogo{
+    transform: translateY(9px);
+  }
+
+  .icon .logoText{
+    transform: translateY(70px);
+  }
 }
 @media screen and (max-width: 640px) {
   .links{
