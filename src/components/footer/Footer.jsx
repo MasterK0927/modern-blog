@@ -3,12 +3,16 @@ import styles from "./footer.module.css";
 import Image from "next/image";
 import Link from "next/link";
 
+const imageLoader = () => {
+  return `https://lh3.googleusercontent.com/drive-viewer/AEYmBYQuXCbmGMePiC1IjnSLOYaoSPHVJMYvX-klefC2gcTo-sSaJ9m-zXpbuQtN0zydSL2LDjPmpMPSLtELcan1IDHOAJVeCQ=s1600`
+}
+
 const Footer = () => {
   return (
     <div className={styles.container}>
       <div className={styles.info}>
         <div className={styles.logo}>
-          <Image src="/maskerk.png" alt="keshav agarwal" width={50} height={50} className={styles.img}/>
+          <Image src={imageLoader} alt="keshav agarwal" width={50} height={50} className={styles.img}/>
           <h1 className={styles.logoText}>Keshav Writes</h1>
         </div>
         <p className={styles.desc}>
