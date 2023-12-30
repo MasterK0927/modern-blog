@@ -8,6 +8,10 @@ import ThemeToggle from "../themeToggle/ThemeToggle";
 import { TiContacts, TiHomeOutline} from "react-icons/ti";
 import { MdDeveloperMode } from "react-icons/md";
 
+const imageLoader = () => {
+  return `https://lh3.googleusercontent.com/drive-viewer/AEYmBYQuXCbmGMePiC1IjnSLOYaoSPHVJMYvX-klefC2gcTo-sSaJ9m-zXpbuQtN0zydSL2LDjPmpMPSLtELcan1IDHOAJVeCQ=s1600`
+}
+
 const Navbar = () => {
   const [isScrolled, setScrolled] = useState(false);
 
@@ -28,7 +32,7 @@ const Navbar = () => {
     <div className={`${styles.container} ${isScrolled ? styles.icon : ""}`}>
       <div className={styles.logo}>
         <div className={styles.hiddenLogo}>
-          <Image width={55} height={55} src="/maskerk.png" className={styles.hiddenImg} />
+          <Image width={55} height={55} src={imageLoader} className={styles.hiddenImg} />
           <div className={styles.txt}>Blogs</div>
         </div>
         <div className={styles.logoText}>Keshav Writes</div>
