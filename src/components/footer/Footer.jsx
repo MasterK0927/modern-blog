@@ -13,7 +13,7 @@ const Footer = () => {
     <div className={styles.container}>
       <div className={styles.info}>
         <div className={styles.logo}>
-          <Image src={imageLoader} alt="keshav agarwal" width={50} height={50} className={styles.img}/>
+          <Image loader={imageLoader} src="maskerk.png" alt="keshav agarwal" width={50} height={50} className={styles.img}/>
           <h1 className={styles.logoText}>Keshav Writes</h1>
         </div>
         <p className={styles.desc}>
