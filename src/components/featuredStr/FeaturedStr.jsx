@@ -16,7 +16,7 @@ const fetcher = async (url) => {
 
 const FeaturedStr = ({ cat }) => {
   const { data, error, isValidating } = useSWR(
-    `http://keshavwrites.netlify.app/api/posts?page=1&cat=${cat || ""}`,
+    `https://keshavwrites.netlify.app/api/posts?page=1&cat=${cat || ""}`,
     fetcher
   );
 
