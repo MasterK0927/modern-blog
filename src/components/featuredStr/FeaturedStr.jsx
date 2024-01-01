@@ -16,7 +16,7 @@ const fetcher = async (url) => {
 
 const FeaturedStr = ({ cat }) => {
   const { data, error, isValidating } = useSWR(
-    `https://keshavwrites.netlify.app/api/posts?page=2&cat=${cat || ""}`,
+    `https://keshavwrites.netlify.app/api/posts?page=1&cat=${cat || ""}`,
     fetcher
   );
 
@@ -33,7 +33,7 @@ const FeaturedStr = ({ cat }) => {
       <div>
         {isValidating && <p>Loading...</p>}
         {data && Array.isArray(data.posts) && data.posts.length > 0 && (
-          <Featured item={data.posts[2]} key={data.posts[2]._id} />
+          <Featured item={data.posts[1]} key={data.posts[1]._id} />
         )}
         {!isValidating && (!data || data.posts.length === 0) && (
           <p>No posts available.</p>
