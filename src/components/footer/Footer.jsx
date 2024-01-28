@@ -14,13 +14,11 @@ const Footer = () => {
       <div className={styles.info}>
         <div className={styles.logo}>
           <Image loader={imageLoader} src="maskerk.png" alt="keshav agarwal" width={50} height={50} className={styles.img}/>
-          <h1 className={styles.logoText}>Keshav Writes</h1>
+          <h1 className={styles.logoText}>Mapping Minds</h1>
         </div>
         <p className={styles.desc}>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Enim
-          necessitatibus similique aspernatur obcaecati veritatis. Aperiam cum
-          porro sequi, totam minima consequuntur, aspernatur deleniti vero
-          repellendus dorales.
+        We curate personalized newsletters and roadmaps to guide engineering students in choosing their optimal tech domain path.
+
         </p>
         <div className={styles.icons}>
           <Link href="https://www.linkedin.com/in/keshavagarwal0927/" target="_blank"><Image className={styles.listLinks} src="/linkedin.png" alt="" width={22} height={22} /></Link>

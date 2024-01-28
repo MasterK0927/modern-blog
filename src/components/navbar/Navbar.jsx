@@ -33,9 +33,9 @@ const Navbar = () => {
       <div className={styles.logo}>
         <div className={styles.hiddenLogo}>
           <Image width={55} height={55} loader={imageLoader} src="maskerk.png" className={styles.hiddenImg} />
-          <div className={styles.txt}>Blogs</div>
+          <div className={styles.txt}>MapMin</div>
         </div>
-        <div className={styles.logoText}>Keshav Writes</div>
+        <div className={styles.logoText}>Mapping Minds</div>
       </div>
       <div className={styles.links}>
         <ThemeToggle />
