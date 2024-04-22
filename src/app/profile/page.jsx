@@ -13,7 +13,7 @@ const Profile = () => {
     // Replace this with your actual API endpoint or data fetching logic
     const fetchPosts = async () => {
       try {
-        const response = await fetch('/api/posts'); // Replace with your API endpoint
+        const response = await fetch('keshavwrites.netlify.app/api/posts'); // Replace with your API endpoint
         const data = await response.json();
         
         if (!response.ok) {
@@ -43,7 +43,7 @@ const Profile = () => {
   const handleSaveEdit = async () => {
     try {
       // Mock update on the backend (replace with your actual update logic)
-      await fetch(`/api/posts/${selectedPost.slug}`, {
+      await fetch(`keshavwrites.netlify.app/api/posts/${selectedPost.slug}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -78,7 +78,7 @@ const Profile = () => {
     if (confirmDelete) {
       try {
         // Mock deletion on the backend (replace with your actual deletion logic)
-        await fetch(`/api/posts/${postId}`, {
+        await fetch(`keshavwrites.netlify.app/api/posts/${postId}`, {
           method: 'DELETE',
         });
 
