@@ -1,4 +1,3 @@
-'use client'
 import { useEffect, useState, useRef } from "react";
 import dynamic from "next/dynamic";
 import "react-quill/dist/quill.bubble.css";
@@ -15,7 +14,7 @@ import {
 } from "firebase/storage";
 import { app } from "@/utils/firebase";
 
-const ReactQuill = dynamic(() => import("react-quill"), { ssr: false }); // Use dynamic import for ReactQuill
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import styles from "./writePage.module.css";
 
 const WritePage = () => {
@@ -42,7 +41,8 @@ const WritePage = () => {
         uploadTask.on(
           "state_changed",
           (snapshot) => {
-            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
             console.log("Upload is " + progress + "% done");
             switch (snapshot.state) {
               case "paused":
@@ -51,6 +51,8 @@ const WritePage = () => {
               case "running":
                 console.log("Upload is running");
                 break;
+              default:
+                break; // Added default case to satisfy ESLint
             }
           },
           (error) => {
@@ -58,7 +60,9 @@ const WritePage = () => {
           },
           async () => {
             try {
-              const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+              const downloadURL = await getDownloadURL(
+                uploadTask.snapshot.ref
+              );
               setMedia(downloadURL);
 
               // Insert the image into the editor
@@ -116,7 +120,6 @@ const WritePage = () => {
   }
 
   if (!session) {
-    // Redirect to the login page if not authenticated
     router.push("/");
     return null;
   }
@@ -129,7 +132,10 @@ const WritePage = () => {
         className={styles.input}
         onChange={(e) => setTitle(e.target.value)}
       />
-      <select className={styles.select} onChange={(e) => setCatSlug(e.target.value)}>
+      <select
+        className={styles.select}
+        onChange={(e) => setCatSlug(e.target.value)}
+      >
         <option value="style">style</option>
         <option value="fashion">fashion</option>
         <option value="food">food</option>
@@ -169,6 +175,7 @@ const WritePage = () => {
           value={value}
           onChange={setValue}
           placeholder="Tell your story..."
+          modules={quillModules}
         />
       </div>
       <button className={styles.publish} onClick={handleSubmit}>
@@ -176,6 +183,18 @@ const WritePage = () => {
       </button>
     </div>
   );
+};
+
+const quillModules = {
+  toolbar: [
+    [{ 'header': '1'}, {'header': '2'}, { 'font': [] }],
+    [{size: []}],
+    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+    [{'list': 'ordered'}, {'list': 'bullet'}, 
+     {'indent': '-1'}, {'indent': '+1'}],
+    ['link', 'image', 'video'],
+    ['clean']
+  ]
 };
 
 export default WritePage;
