@@ -25,8 +25,8 @@ const Profile = ({ params }) => {
   const [postData, setPostData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [editedContent, setEditedContent] = useState('');
   const [isEditing, setIsEditing] = useState(false);
+  const [editedContent, setEditedContent] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,7 +44,7 @@ const Profile = ({ params }) => {
   }, [slug]);
 
   const handleEditPost = () => {
-    setEditedContent(postData.content); // Set edited content to current post content
+    setEditedContent(postData.content);
     setIsEditing(true);
   };
 
@@ -62,7 +62,6 @@ const Profile = ({ params }) => {
         throw new Error('Failed to update post');
       }
 
-      // Update local post data with edited content
       setPostData({ ...postData, content: editedContent });
       setIsEditing(false);
     } catch (error) {
@@ -87,9 +86,7 @@ const Profile = ({ params }) => {
           throw new Error('Failed to delete post');
         }
 
-        // Update UI: Remove deleted post from state or navigate to a different page
-        console.log('Post deleted successfully');
-        setPostData(null); // Clear post data after deletion
+        setPostData(null);
       } catch (error) {
         setError(error.message);
       }
@@ -109,20 +106,20 @@ const Profile = ({ params }) => {
       {postData && (
         <div className={styles.infoContainer}>
           <div className={styles.textContainer}>
-            <h1 className={styles.title}>{postData.title}</h1>
+            <h1 className={styles.title}>{postData?.title}</h1>
             <div className={styles.user}>
-              {postData.user?.image && (
+              {postData?.user?.image && (
                 <div className={styles.userImageContainer}>
                   <Image src={postData.user.image} alt="" fill className={styles.avatar} />
                 </div>
               )}
               <div className={styles.userTextContainer}>
-                <span className={styles.username}>{postData.user?.name}</span>
+                <span className={styles.username}>{postData?.user.name}</span>
                 <span className={styles.date}>01.01.2024</span>
               </div>
             </div>
           </div>
-          {postData.img && (
+          {postData?.img && (
             <div className={styles.imageContainer}>
               <Image src={postData.img} alt="" fill className={styles.image} />
             </div>
