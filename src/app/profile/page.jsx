@@ -1,88 +1,57 @@
-'use client'
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
+import Comments from '@/components/comments/Comments';
+import styles from '../posts/[slug]/singlePage.module.css'
 
-const Profile = () => {
-  const [posts, setPosts] = useState([]);
-  const [selectedPost, setSelectedPost] = useState(null);
-  const [editedContent, setEditedContent] = useState('');
-  const [isEditing, setIsEditing] = useState(false);
+const getData = async (slug) => {
+  const res = await fetch(`https://keshavwrites.netlify.app/api/posts/${slug}`, {
+    cache: 'no-store',
+  });
 
-  // Fetch user's posts from the backend
+  if (!res.ok) {
+    throw new Error('Failed');
+  }
+
+  return res.json();
+};
+
+const Profile = ({ params }) => {
+  const { slug } = params;
+  const [data, setData] = useState(null);
+
   useEffect(() => {
-    // Replace this with your actual API endpoint or data fetching logic
-    const fetchPosts = async (slug) => {
+    const fetchData = async () => {
       try {
-        const response = await fetch(`https://keshavwrites.netlify.app/api/posts/${slug}`); // Replace with your API endpoint
-        const data = await response.json();
-        
-        if (!response.ok) {
-          throw new Error(`Failed to fetch posts: ${response.statusText}`);
-        }
-
-        if (data.error) {
-          throw new Error(`API error: ${data.error}`);
-        }
-
-        setPosts(data.posts || []);
+        const postData = await getData(slug);
+        setData(postData);
       } catch (error) {
-        console.error('Error fetching posts:', error);
+        console.error('Error fetching post data:', error);
       }
     };
 
-    fetchPosts();
-  }, []);
+    fetchData();
+  }, [slug]);
 
-  const handleEditPost = (postId) => {
-    const postToEdit = posts.find((post) => post.id === postId);
-    setSelectedPost(postToEdit);
-    setEditedContent(postToEdit.content);
-    setIsEditing(true);
+  const handleEditPost = () => {
+    // Redirect to edit page or modal with post data
+    console.log('Editing post:', data);
   };
 
-  const handleSaveEdit = async (slug) => {
-    try {
-      // Mock update on the backend (replace with your actual update logic)
-      await fetch(`keshavwrites.netlify.app/api/posts/${selectedPost.slug}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ content: editedContent }),
-      });
-
-      // Update the local state after a successful backend update
-      setPosts((prevPosts) =>
-        prevPosts.map((post) =>
-          post.id === selectedPost.id ? { ...post, content: editedContent } : post
-        )
-      );
-
-      setIsEditing(false);
-      setSelectedPost(null);
-      setEditedContent('');
-    } catch (error) {
-      console.error('Error updating post:', error);
-    }
-  };
-
-  const handleCancelEdit = () => {
-    setIsEditing(false);
-    setSelectedPost(null);
-    setEditedContent('');
-  };
-
-  const handleDeletePost = async (postId) => {
+  const handleDeletePost = async () => {
     const confirmDelete = window.confirm('Are you sure you want to delete this post?');
-
+    
     if (confirmDelete) {
       try {
-        // Mock deletion on the backend (replace with your actual deletion logic)
-        await fetch(`keshavwrites.netlify.app/api/posts/${postId}`, {
+        const response = await fetch(`https://keshavwrites.netlify.app/api/posts/${slug}`, {
           method: 'DELETE',
         });
 
-        // Update the local state after successful backend deletion
-        setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
+        if (!response.ok) {
+          throw new Error('Failed to delete post');
+        }
+
+        // Update UI: Remove deleted post from state or navigate to a different page
+        console.log('Post deleted successfully');
       } catch (error) {
         console.error('Error deleting post:', error);
       }
@@ -90,29 +59,60 @@ const Profile = () => {
   };
 
   return (
-    <div>
-      <h1>Your Profile</h1>
-      <ul>
-        {posts.map((post) => (
-          <li key={post.id}>
-            <p>{post.content}</p>
-            <button onClick={() => handleEditPost(post.id)}>Edit</button>
-            <button onClick={() => handleDeletePost(post.id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
-
-      {isEditing && (
-        <div>
-          <h2>Edit Post</h2>
-          <textarea
-            value={editedContent}
-            onChange={(e) => setEditedContent(e.target.value)}
-          ></textarea>
-          <button onClick={handleSaveEdit}>Save</button>
-          <button onClick={handleCancelEdit}>Cancel</button>
+    <div className={styles.container}>
+      {data && (
+        <div className={styles.infoContainer}>
+          <div className={styles.textContainer}>
+            <h1 className={styles.title}>{data?.title}</h1>
+            <div className={styles.user}>
+              {data?.user?.image && (
+                <div className={styles.userImageContainer}>
+                  <Image src={data.user.image} alt="" fill className={styles.avatar} />
+                </div>
+              )}
+              <div className={styles.userTextContainer}>
+                <span className={styles.username}>{data?.user.name}</span>
+                <span className={styles.date}>01.01.2024</span>
+              </div>
+            </div>
+          </div>
+          {data?.img && (
+            <div className={styles.imageContainer}>
+              <Image src={data.img} alt="" fill className={styles.image} />
+            </div>
+          )}
         </div>
       )}
+      <div className={styles.content}>
+        {data && (
+          <div className={styles.post}>
+            <div
+              className={styles.description}
+              dangerouslySetInnerHTML={{ __html: data?.desc }}
+            />
+            <div className={styles.comment}>
+              <Comments postSlug={slug} />
+            </div>
+          </div>
+        )}
+        <div className={styles.profileSection}>
+          <h2>Profile Section</h2>
+          {data?.user && (
+            <div className={styles.userInfo}>
+              <h3>User Information</h3>
+              <p>Name: {data.user.name}</p>
+              <p>Email: {data.user.email}</p>
+              {/* Display additional user information as needed */}
+            </div>
+          )}
+          {data && (
+            <div>
+              <button onClick={handleEditPost}>Edit Post</button>
+              <button onClick={handleDeletePost}>Delete Post</button>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 };
