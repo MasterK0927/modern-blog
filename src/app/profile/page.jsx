@@ -98,14 +98,6 @@ const Profile = ({ params }) => {
         )}
         <div className={styles.profileSection}>
           <h2>Profile Section</h2>
-          {data?.user && (
-            <div className={styles.userInfo}>
-              <h3>User Information</h3>
-              <p>Name: {data.user.name}</p>
-              <p>Email: {data.user.email}</p>
-              {/* Display additional user information as needed */}
-            </div>
-          )}
           {data && (
             <div>
               <button onClick={handleEditPost}>Edit Post</button>
