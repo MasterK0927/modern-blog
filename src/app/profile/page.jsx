@@ -33,6 +33,7 @@ const Profile = ({ params }) => {
       try {
         const data = await getPostData(slug);
         setPostData(data);
+        console.log(data);
         setLoading(false);
       } catch (error) {
         setError(error.message);
