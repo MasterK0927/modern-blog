@@ -1,5 +1,4 @@
 'use client'
-// pages/profile.js
 import React, { useState, useEffect } from 'react';
 
 const Profile = () => {
@@ -11,9 +10,9 @@ const Profile = () => {
   // Fetch user's posts from the backend
   useEffect(() => {
     // Replace this with your actual API endpoint or data fetching logic
-    const fetchPosts = async () => {
+    const fetchPosts = async (slug) => {
       try {
-        const response = await fetch('keshavwrites.netlify.app/api/posts'); // Replace with your API endpoint
+        const response = await fetch(`https://keshavwrites.netlify.app/api/posts/${slug}`); // Replace with your API endpoint
         const data = await response.json();
         
         if (!response.ok) {
@@ -40,7 +39,7 @@ const Profile = () => {
     setIsEditing(true);
   };
 
-  const handleSaveEdit = async () => {
+  const handleSaveEdit = async (slug) => {
     try {
       // Mock update on the backend (replace with your actual update logic)
       await fetch(`keshavwrites.netlify.app/api/posts/${selectedPost.slug}`, {

@@ -32,10 +32,10 @@ const Navbar = () => {
     <div className={`${styles.container} ${isScrolled ? styles.icon : ""}`}>
       <div className={styles.logo}>
         <div className={styles.hiddenLogo}>
-          <Image width={55} height={55} loader={imageLoader} src="maskerk.png" className={styles.hiddenImg} />
-          <div className={styles.txt}>MapMin</div>
+          <Image width={55} height={55} loader={imageLoader} alt="keshav" src="maskerk.png" className={styles.hiddenImg} />
+          <div className={styles.txt}>Blogs</div>
         </div>
-        <div className={styles.logoText}>Mapping Minds</div>
+        <div className={styles.logoText}>Keshav Writes</div>
       </div>
       <div className={styles.links}>
         <ThemeToggle />

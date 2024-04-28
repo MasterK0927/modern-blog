@@ -11,9 +11,9 @@ const ProfileComp = () => {
   // Fetch user's posts from the backend
   useEffect(() => {
     // Replace this with your actual API endpoint or data fetching logic
-    const fetchPosts = async () => {
+    const fetchPosts = async (slug) => {
       try {
-        const response = await fetch('/api/posts'); // Replace with your API endpoint
+        const response = await fetch(`https://keshavwrites.netlify.app/api/posts/${slug}`);
         const data = await response.json();
         setPosts(data.posts || []);
       } catch (error) {
@@ -69,7 +69,7 @@ const ProfileComp = () => {
     if (confirmDelete) {
       try {
         // Mock deletion on the backend (replace with your actual deletion logic)
-        await fetch(`/api/posts/${postId}`, {
+        await fetch(`https://keshavwrites.netlify.app/api/posts/${postId}`, {
           method: 'DELETE',
         });
 
