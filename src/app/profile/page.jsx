@@ -1,8 +1,7 @@
-'use client'
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import Comments from '@/components/comments/Comments';
-import styles from '../posts/[slug]/singlePage.module.css'
+import styles from '../posts/[slug]/singlePage.module.css';
 
 const getData = async (slug) => {
   const res = await fetch(`https://keshavwrites.netlify.app/api/posts/${slug}`, {
@@ -20,18 +19,10 @@ const Profile = ({ params }) => {
   const { slug } = params;
   const [data, setData] = useState(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const postData = await getData(slug);
-        setData(postData);
-      } catch (error) {
-        console.error('Error fetching post data:', error);
-      }
-    };
-
-    fetchData();
-  }, [slug]);
+  // Fetch data directly when the component renders
+  getData(slug)
+    .then((postData) => setData(postData))
+    .catch((error) => console.error('Error fetching post data:', error));
 
   const handleEditPost = () => {
     // Redirect to edit page or modal with post data
