@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import Comments from '@/components/comments/Comments';
 import styles from '../posts/[slug]/singlePage.module.css';
@@ -17,16 +17,12 @@ const getData = async (slug) => {
 
 const Profile = ({ params }) => {
   const { slug } = params;
-  const [data, setData] = useState(null);
-
-  // Fetch data directly when the component renders
-  getData(slug)
-    .then((postData) => setData(postData))
-    .catch((error) => console.error('Error fetching post data:', error));
 
   const handleEditPost = () => {
     // Redirect to edit page or modal with post data
-    console.log('Editing post:', data);
+    getData(slug)
+      .then((data) => console.log('Editing post:', data))
+      .catch((error) => console.error('Error fetching post data:', error));
   };
 
   const handleDeletePost = async () => {
@@ -52,49 +48,29 @@ const Profile = ({ params }) => {
 
   return (
     <div className={styles.container}>
-      {data && (
-        <div className={styles.infoContainer}>
-          <div className={styles.textContainer}>
-            <h1 className={styles.title}>{data?.title}</h1>
-            <div className={styles.user}>
-              {data?.user?.image && (
-                <div className={styles.userImageContainer}>
-                  <Image src={data.user.image} alt="" fill className={styles.avatar} />
-                </div>
-              )}
-              <div className={styles.userTextContainer}>
-                <span className={styles.username}>{data?.user.name}</span>
-                <span className={styles.date}>01.01.2024</span>
-              </div>
+      <div className={styles.infoContainer}>
+        <div className={styles.textContainer}>
+          <h1 className={styles.title}>{slug}</h1>
+          <div className={styles.user}>
+            <div className={styles.userTextContainer}>
+              <span className={styles.username}>User Name</span>
+              <span className={styles.date}>01.01.2024</span>
             </div>
           </div>
-          {data?.img && (
-            <div className={styles.imageContainer}>
-              <Image src={data.img} alt="" fill className={styles.image} />
-            </div>
-          )}
         </div>
-      )}
+      </div>
       <div className={styles.content}>
-        {data && (
-          <div className={styles.post}>
-            <div
-              className={styles.description}
-              dangerouslySetInnerHTML={{ __html: data?.desc }}
-            />
-            <div className={styles.comment}>
-              <Comments postSlug={slug} />
-            </div>
+        <div className={styles.post}>
+          <div className={styles.comment}>
+            <Comments postSlug={slug} />
           </div>
-        )}
+        </div>
         <div className={styles.profileSection}>
           <h2>Profile Section</h2>
-          {data && (
-            <div>
-              <button onClick={handleEditPost}>Edit Post</button>
-              <button onClick={handleDeletePost}>Delete Post</button>
-            </div>
-          )}
+          <div>
+            <button onClick={handleEditPost}>Edit Post</button>
+            <button onClick={handleDeletePost}>Delete Post</button>
+          </div>
         </div>
       </div>
     </div>
