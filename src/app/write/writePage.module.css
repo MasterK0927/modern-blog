@@ -1,95 +1,215 @@
+/* Container styles */
 .container {
-  position: relative;
-  display: flex;
-  flex-direction: column;
+  max-width: 1200px; /* Increased max-width for better utilization of screen space */
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Poppins', sans-serif; /* Modern font */
 }
 
+/* Loading spinner */
+.loading {
+  font-size: 24px;
+  text-align: center;
+  margin-top: 50px;
+}
+
+/* Title input styles */
+.input {
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 20px;
+  font-size: 24px;
+  border: none;
+  border-bottom: 2px solid #4caf50; /* Green accent color */
+  background-color: transparent;
+  color: var(--textColor); /* Default text color */
+  transition: border-bottom-color 0.3s ease;
+}
+
+.input:focus {
+  border-bottom-color: #1976d2; /* Blue accent color */
+  outline: none;
+}
+
+/* Category select styles */
 .select {
-  margin-bottom: 50px;
-  padding: 10px 20px;
-  margin-left: 50px;
-  width: max-content;
-  cursor: pointer;
-  text-transform: uppercase;
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 20px;
+  font-size: 18px;
+  border: none;
+  border-bottom: 1px solid #4caf50; /* Green accent color */
+  background-color: wheat;
+  color: #333; /* Default text color */
+  border-radius: 8px;
+  transition: border-bottom-color 0.3s ease;
 }
 
+.select:focus {
+  border-bottom-color: #1976d2; /* Blue accent color */
+  outline: none;
+}
+
+/* Editor container styles */
 .editor {
-  display: flex;
-  gap: 20px;
-  height: 700px;
+  width: 100%;
   position: relative;
+  margin-bottom: 20px;
 }
 
-.button,
-.addButton {
+.addContainer{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Add media button styles */
+.button {
+  position: relative;
+  top: -10px;
+  left: 0;
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background-color: transparent;
-  border: 1px solid var(--textColor);
+  background-color: #f44336; /* Red accent color */
+  border: none;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.plus{
-  color: var(--textColor);
+.button:hover {
+  background-color: #d32f2f; /* Darker shade of red */
+}
+
+.plus {
+  color: #fff;
   width: 20px;
   height: 20px;
-  transition: 2s;
-}
-
-.button:active .plus{
-  transform: rotate(45deg);
-  transition: 0s;
-}
-
-.addButton:hover {
-  background-color: burlywood;
 }
 
 .add {
   display: flex;
-  gap: 20px;
-  background-color: var(--bg);
-  position: absolute;
-  z-index: 999;
-  width: 100%;
-  left: 50px;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
-.input {
-  padding: 50px;
-  font-size: 64px;
-  border: none;
-  outline: none;
-  background-color: transparent;
-  color: var(--textColor);
-}
-
-.input::placeholder {
-  color: #b3b3b1;
-}
-
-.textArea {
-  width: 100%;
-}
-
-.publish {
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  padding: 10px 20px;
-  border: none;
-  background-color: #1a8917;
-  color: white;
+.addButton {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: yellowgreen;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  border-radius: 20px;
-  transition:1s;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.addButton:hover {
+  background-color: #d5a553; /* Lighter shade */
+  border-color: #4caf50; /* Green accent color */
+}
+
+/* Text area styles */
+.textArea {
+  min-height: 400px;
+  border: none;
+  border-radius: 8px;
+  padding: 15px;
+  font-size: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #f8f9fa; /* Light background */
+  color: #333; /* Default text color */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+@media (prefers-color-scheme: dark) {
+  .textArea {
+    background-color: #333;
+    color: #f1f1f1;
+  }
+}
+
+/* Publish button styles */
+.publish {
+  width: 100%;
+  padding: 15px;
+  background-color: #4caf50; /* Green accent color */
+  color: #fff; /* White text color */
+  font-size: 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background-color 0.3s ease;
 }
 
 .publish:hover {
-  background-color: #1b891783;
-  transition:0s;  
+  background-color: #388e3c; /* Darker shade of green */
+}
+
+/* Thumbnail container styles */
+.thumbnailContainer {
+  position: relative;
+  margin-top: 20px;
+}
+
+/* Thumbnail image styles */
+.thumbnail {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Delete thumbnail button styles */
+.deleteButton {
+  background-color: #f44336; /* Red accent color */
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+}
+
+.deleteButton:hover {
+  background-color: #d32f2f; /* Darker shade of red */
+}
+
+/* Autosave indicator styles */
+.autosaveIndicator {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: green;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.autosaveIndicatorSaving{
+  position: absolute;
+  top: 40px;
+  right: 10px;
+  color: black;
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-size: 14px;
+  background: yellow;
 }

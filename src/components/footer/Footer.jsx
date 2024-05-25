@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 const imageLoader = () => {
-  return `https://lh3.googleusercontent.com/drive-viewer/AEYmBYQuXCbmGMePiC1IjnSLOYaoSPHVJMYvX-klefC2gcTo-sSaJ9m-zXpbuQtN0zydSL2LDjPmpMPSLtELcan1IDHOAJVeCQ=s1600`
+  return `https://lh3.googleusercontent.com/drive-viewer/AKGpihZTVdX9_yuCy_oQIStF8RZf86L88QDcFjg8QnMahNA-IZn1KXcuZSuyxtUg7fGhqIM9Yv1sJ8r_JlJJPoW_RWsZ9II4WUyhzqE=s1600-rw-v1`
 }
 
 const Footer = () => {
