@@ -1,22 +1,34 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  max-width: 1200px;
+  min-width: 100%;
+  padding: 20px;
+}
+
 .infoContainer {
   display: flex;
-  align-items: center;
-  gap: 50px;
+  align-items: flex-start; /* Changed to flex-start for better alignment */
+  gap: 30px; /* Reduced gap for better spacing */
+  width: 100%;
+  margin-bottom: 30px; /* Added margin for better spacing */
 }
 
 .textContainer {
-  flex: 1;
+  flex: 2; /* Adjusted flex for better proportion */
 }
 
 .title {
-  font-size: 64px;
-  margin-bottom: 50px;
+  font-size: 2.5rem; /* Adjusted font size for consistency */
+  margin-bottom: 20px; /* Reduced margin for better spacing */
 }
 
 .user {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 10px; /* Reduced gap for better spacing */
 }
 
 .userImageContainer {
@@ -33,62 +45,186 @@
 .userTextContainer {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 2px; /* Reduced gap for better spacing */
   color: var(--softTextColor);
 }
 
 .username {
-  font-size: 20px;
+  font-size: 1rem; /* Adjusted font size for consistency */
   font-weight: 500;
 }
 
 .imageContainer {
-  flex: 1;
+  width: 60%;
   height: 350px;
   position: relative;
 }
 
 .image {
   object-fit: cover;
+  border-radius: 10px; /* Added border-radius for aesthetics */
 }
 
 .content {
   display: flex;
-  gap: 50px;
+  flex-direction: column; /* Changed to column for better readability on smaller screens */
+  gap: 30px; /* Reduced gap for better spacing */
+  width: 100%;
+  min-width: 95%;
+  padding: 10px 50px 50px 50px;
+  border-radius: 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.235);
 }
 
 .post {
-  flex: 5;
-  margin-top: 60px;
+  flex: 1;
+  margin-top: 40px; /* Adjusted margin for better spacing */
 }
 
 .description p {
-  font-size: 20px;
+  font-size: 1.5rem;
   font-weight: 300;
-  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.description h1 {
+  font-size: 3rem;
+  font-weight: 600;
+  margin: 20px 0 10px;
+
+}
+
+.description h2,
+.description h3 {
+  font-size: 1.75rem;
+  font-weight: 500;
+  margin: 20px 0 10px;
+}
+
+.description img {
+  max-width: 100%;
+  height: auto;
+  margin: 20px 0;
+  border-radius: 10px;
+}
+
+.description table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+.description th,
+.description td {
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
+.description th {
+  background-color: #f4f4f4;
+  text-align: left;
+}
+
+.description ul,
+.description ol {
+  margin: 20px 0;
+  padding-left: 40px;
+  gap: 10px;
+}
+
+
+.description li {
+  margin: 10px 0;
+  font-size: 1.5rem;
 }
 
 @media screen and (max-width: 1536px) {
   .title {
-    font-size: 54px;
+    font-size: 2.25rem; 
   }
 }
+
 @media screen and (max-width: 1280px) {
   .title {
-    font-size: 48px;
-  }
-}
-@media screen and (max-width: 1024px) {
-  .imageContainer {
-    display: none;
-  }
-}
-@media screen and (max-width: 640px) {
-  .title {
-    font-size: 36px;
+    font-size: 2rem; 
   }
 
-  .description p{
-    font-size: 18px;
+}
+
+@media screen and (max-width: 1024px) {
+  .infoContainer {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .imageContainer {
+    width: 100%;
+    height: 250px; 
+  }
+
+  .content {
+    flex-direction: column; 
+  }
+}
+
+@media screen and (max-width: 764px) {
+  .title {
+    font-size: 1.75rem; 
+  }
+
+  .content{
+    padding: 10px 20px 20px 20px; 
+  
+  }
+
+  .description ul , .description ol {
+    padding-left: 20px; 
+  }
+
+  .description li {
+    font-size: 1rem; 
+  }
+
+  .description p {
+    font-size: 1rem; 
+  }
+
+  .post {
+    margin-top: 20px; 
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .description p {
+    font-size: 0.875rem; 
+  }
+
+  .description h1 {
+    font-size: 2.1rem; 
+  }
+
+  .description h2, .description h3 {
+    font-size: 1.5rem; 
+  }
+
+  .description img {
+    margin: 10px 0; 
+  }
+
+  .description th, .description td {
+    padding: 5px; 
+  }
+
+  .description li {
+    font-size: 0.875rem; 
+  }
+
+  .content {
+    padding: 10px 10px 20px 10px; 
+  }
+
+  .post {
+    margin-top: 10px; 
   }
 }

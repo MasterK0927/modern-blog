@@ -19,7 +19,7 @@
   transition: 0.5s;
 }
 
-.imageContainer {
+.imageContain {
   flex: 1;
   aspect-ratio: 1/1;
   position: relative;

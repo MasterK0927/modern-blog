@@ -13,7 +13,7 @@ const MenuPosts = ({ withImage }) => {
     <div className={styles.items}>
       <Link href="/" className={styles.item}>
         {withImage && (
-          <div className={styles.imageContainer}>
+          <div className={styles.imageContain}>
             <Image loader={imageLoader} src="maskerk.png" alt="" fill className={styles.image} />
           </div>
         )}
@@ -30,7 +30,7 @@ const MenuPosts = ({ withImage }) => {
       </Link>
       <Link href="/" className={styles.item}>
         {withImage && (
-          <div className={styles.imageContainer}>
+          <div className={styles.imageContain}>
             <Image loader={imageLoader} src="maskerk.png" alt="" fill className={styles.image} />
           </div>
         )}
@@ -49,7 +49,7 @@ const MenuPosts = ({ withImage }) => {
       </Link>
       <Link href="/" className={styles.item}>
         {withImage && (
-          <div className={styles.imageContainer}>
+          <div className={styles.imageContain}>
             <Image loader={imageLoader} src="maskerk.png" alt="" fill className={styles.image} />
           </div>
         )}
@@ -66,7 +66,7 @@ const MenuPosts = ({ withImage }) => {
       </Link>
       <Link href="/" className={styles.item}>
         {withImage && (
-          <div className={styles.imageContainer}>
+          <div className={styles.imageContain}>
             <Image loader={imageLoader} src="maskerk.png" alt="" fill className={styles.image} />
           </div>
         )}
