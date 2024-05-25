@@ -1,0 +1,72 @@
+/* Container for centering and layout */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    text-align: center;
+    animation: fadeInBackground 2s ease-in-out; /* Background fade-in animation */
+  }
+  
+  /* Heading style with animation */
+  .heading {
+    font-size: 2.5rem;
+    color: #fff; /* White text color for contrast */
+    margin-bottom: 1rem;
+    animation: fadeIn 1.5s ease-in-out, pulse 2s infinite; /* Text fade-in and continuous pulsing animation */
+  }
+  
+  /* Message style with animation */
+  .message {
+    font-size: 1.5rem;
+    color: #fff; /* White text color for contrast */
+    animation: slideIn 1.5s ease-in-out, pulse 2s infinite; /* Text slide-in and continuous pulsing animation */
+  }
+  
+  /* Fade-in animation for the background */
+  @keyframes fadeInBackground {
+    0% {
+      background-color: rgba(0, 0, 0, 0);
+    }
+    100% {
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+  }
+  
+  /* Fade-in animation for the text */
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+  /* Slide-in animation for the text */
+  @keyframes slideIn {
+    0% {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  /* Continuous pulsing animation for the text */
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  

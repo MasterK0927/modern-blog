@@ -37,7 +37,7 @@ const WritePage = () => {
   const [autosaved, setAutosaved] = useState(false);
   const [showTooltip, setShowTooltip] = useState(true);
   const quillRef = useRef(null);
-  const router = useRouter();
+  const router = useRouter(); console.log(router);
   const fileInputRef = useRef(null);
   const ImageName = useRef(null);
   const [rotate, setRotate] = useState(false);
@@ -49,8 +49,11 @@ const WritePage = () => {
 
   useEffect(() => {
     if (status === 'loading') return;
-    if (!session) router.push('/');
+    if (!session) {
+      router.push('/'); // Redirect to custom error page
+    }
   }, [session, status, router]);
+
 
   useEffect(() => {
     const uploadImage = async () => {
