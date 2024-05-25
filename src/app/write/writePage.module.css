@@ -71,7 +71,7 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background-color: #f44336; /* Red accent color */
+  background-color:#ca5f29;
   border: none;
   display: flex;
   align-items: center;
@@ -81,7 +81,12 @@
 }
 
 .button:hover {
-  background-color: #d32f2f; /* Darker shade of red */
+  background-color: #d3732f83; /* Darker shade of red */
+}
+
+.rotated {
+  transform: rotate(45deg);
+  transition: transform 0.3s;
 }
 
 .plus {
@@ -159,36 +164,29 @@
 }
 
 /* Thumbnail image styles */
-.thumbnail {
-  max-width: 100%;
+.thumbnail{
+  width: auto;
   height: auto;
-  display: block;
-  margin: 0 auto;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* Delete thumbnail button styles */
 .deleteButton {
+  padding: 10px;
   background-color: #f44336; /* Red accent color */
-  color: white;
+  color: #fff; /* White text color */
   border: none;
-  border-radius: 50%;
-  width: 36px;
-  height: 36px;
-  padding: 0;
+  border-radius: 8px;
   cursor: pointer;
   position: absolute;
   top: 10px;
   right: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   transition: background-color 0.3s ease;
 }
 
 .deleteButton:hover {
-  background-color: #d32f2f; /* Darker shade of red */
+  background-color: #c03a3a; /* Darker shade of red */
 }
 
 /* Autosave indicator styles */
@@ -212,4 +210,27 @@
   border-radius: 8px;
   font-size: 14px;
   background: yellow;
+}
+
+.metadataInput {
+  width: 100%;
+  padding: 15px;
+  font-size: 18px;
+  border: none;
+  border-bottom: 1px solid #4caf50; /* Green accent color */
+  background-color: wheat;
+  color: #333; /* Default text color */
+  border-radius: 8px;
+  margin-left: 20px; /* Spacing between thumbnail and metadata input */
+  transition: border-bottom-color 0.3s ease;
+}
+
+.metadataInput:focus {
+  border-bottom-color: #1976d2; /* Blue accent color */
+  outline: none;
+}
+
+.metadataContainer {
+  display: flex;
+  align-items: center;
 }

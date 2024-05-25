@@ -35,7 +35,7 @@ const Navbar = () => {
           <Image width={55} height={55} loader={imageLoader} alt="keshav" src="maskerk.png" className={styles.hiddenImg} />
           <div className={styles.txt}>Blogs</div>
         </div>
-        <div className={styles.logoText}>Keshav Writes</div>
+        <div className={styles.logoText}>Keshav</div>
       </div>
       <div className={styles.links}>
         <ThemeToggle />

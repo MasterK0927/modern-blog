@@ -32,12 +32,20 @@ const WritePage = () => {
   const [value, setValue] = useState("");
   const [title, setTitle] = useState("");
   const [catSlug, setCatSlug] = useState("style");
+  const [metadata, setMetadata] = useState("");
   const [autosaving, setAutosaving] = useState(false);
   const [autosaved, setAutosaved] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(true);
   const quillRef = useRef(null);
   const router = useRouter();
   const fileInputRef = useRef(null);
   const ImageName = useRef(null);
+  const [rotate, setRotate] = useState(false);
+
+  const handleClick = () => {
+    setOpen(!open);
+    setRotate(!rotate);
+  }
 
   useEffect(() => {
     if (status === 'loading') return;
@@ -45,14 +53,93 @@ const WritePage = () => {
   }, [session, status, router]);
 
   useEffect(() => {
+    const uploadImage = async () => {
+      if (!file) return;
+      const toastId = toast.info('Uploading image...', { autoClose: false });
+      try {
+        const storage = getStorage(app);
+        const name = new Date().getTime() + "_" + file.name;
+        ImageName.current = name;
+        const storageRef = ref(storage, name);
+        const uploadTask = uploadBytesResumable(storageRef, file);
+
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            toast.update(toastId, {
+              render: `Upload is ${progress.toFixed(2)}% done`,
+            });
+          },
+          (error) => {
+            toast.update(toastId, { render: "Error uploading image", autoClose: 5000 });
+            console.error("Error uploading image:", error);
+          },
+          async () => {
+            try {
+              const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+              console.log("File available at", downloadURL);
+              setMedia(downloadURL);
+              setThumbnail(downloadURL); // Set thumbnail URL
+            } catch (error) {
+              toast.update(toastId, { render: "Error getting download URL", autoClose: 5000 });
+              console.error("Error getting download URL:", error);
+            }
+          }
+        );
+      } catch (error) {
+        toast.update(toastId, { render: "Error uploading image", autoClose: 5000 });
+        console.error("Error uploading image:", error);
+      }
+    };
+    uploadImage();
+  }, [file]);
+
+  useEffect(() => {
+    if (quillRef.current) {
+      const quill = quillRef.current.getEditor();
+      if (quill) {
+        quill.on('editor-change', (eventName, ...args) => {
+          if (eventName === 'text-change') {
+            setValue(quill.root.innerHTML);
+          }
+        });
+      }
+    }
+  }, [quillRef]);
+
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
+  const handleAddImageClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleDeleteImage = async () => {
+    try {
+      // Delete the image from the database
+      await deleteObject(ref(getStorage(app), ImageName.current));
+      setValue("");
+      setMedia("");
+      setThumbnail("");
+      toast.success("Image deleted successfully");
+    } catch (error) {
+      console.error("Error deleting image:", error);
+      toast.error("Failed to delete image");
+    }
+  };
+
+  useEffect(() => {
     const draft = localStorage.getItem("draft");
     if (draft) {
-      const { title, value, catSlug, media, thumbnail } = JSON.parse(draft);
+      const { title, value, catSlug, media, thumbnail, metadata } = JSON.parse(draft);
       setTitle(title);
       setValue(value);
       setCatSlug(catSlug);
       setMedia(media);
       setThumbnail(thumbnail);
+      setMetadata(metadata);
       setAutosaved(true);
     }
   }, []);
@@ -61,7 +148,7 @@ const WritePage = () => {
     const handleUnload = (event) => {
       event.preventDefault();
       return (
-        event.returnValue ='Are you sure you want to leave? Changes you made may not be saved.' 
+        event.returnValue = 'Are you sure you want to leave? Changes you made may not be saved.'
       );
     };
 
@@ -80,7 +167,8 @@ const WritePage = () => {
         value !== draft.value ||
         catSlug !== draft.catSlug ||
         media !== draft.media ||
-        thumbnail !== draft.thumbnail
+        thumbnail !== draft.thumbnail ||
+        metadata !== draft.metadata
       ) {
         setAutosaving(true);
         setTimeout(() => {
@@ -88,35 +176,14 @@ const WritePage = () => {
           setAutosaved(true);
           localStorage.setItem(
             "draft",
-            JSON.stringify({ title, value, catSlug, media, thumbnail })
+            JSON.stringify({ title, value, catSlug, media, thumbnail, metadata })
           );
         }, 3000); // Autosaved after 3 seconds
       }
-    }, 20000); // Check every 20 seconds
+    }, 30000); // Check every 30 seconds
 
     return () => clearInterval(timer);
-  }, [title, value, catSlug, media, thumbnail]);
-
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
-  };
-
-  const handleAddImageClick = () => {
-    fileInputRef.current.click();
-  };
-
-  const handleDeleteImage = async () => {
-    try {
-      await deleteObject(ref(getStorage(app), ImageName.current));
-      setValue("");
-      setMedia("");
-      setThumbnail("");
-      toast.success("Image deleted successfully");
-    } catch (error) {
-      console.error("Error deleting image:", error);
-      toast.error("Failed to delete image");
-    }
-  };
+  }, [title, value, catSlug, media, thumbnail, metadata]);
 
   const handleSubmit = async () => {
     const toastId = toast.info('Publishing post...', { autoClose: false });
@@ -131,16 +198,17 @@ const WritePage = () => {
           desc: value,
           img: media,
           thumbnail,
+          metadata,
           slug: slugify(title),
           catSlug: catSlug || "style",
         }),
       });
       if (res.status === 200) {
         const data = await res.json();
-        toast.success(toastId, { render: "Post published successfully", autoClose: 5000 });
+        toast.update(toastId, { render: "Post published successfully", autoClose: 5000 });
         router.push(`/posts/${data.slug}`);
       } else {
-        toast.error(toastId, { render: "Error publishing post", autoClose: 5000 });
+        toast.update(toastId, { render: "Error publishing post", autoClose: 5000 });
       }
     } catch (error) {
       toast.error(toastId, { render: "Error submitting post", autoClose: 5000 });
@@ -149,6 +217,13 @@ const WritePage = () => {
   };
 
   const slugify = (str) => str.toLowerCase().trim().replace(/[^\w\s-]/g, "").replace(/[\s_-]+/g, "-").replace(/^-+|-+$/g, "");
+
+  const handleMetadataFocus = () => {
+    if (showTooltip) {
+      toast.info("Add relevant keywords and tags for better SEO. Separate tags with commas.");
+      setShowTooltip(false);
+    }
+  };
 
   if (status === 'loading') {
     return <div className={styles.loading}>Loading...</div>;
@@ -178,7 +253,7 @@ const WritePage = () => {
       </select>
       <div className={styles.editor}>
         <div className={styles.addContainer}>
-          <button className={styles.button} onClick={() => setOpen(!open)}>
+          <button className={`${styles.button} ${rotate ? styles.rotated : ''}`} onClick={handleClick}>
             <FaPlus className={styles.plus} />
           </button>
           {open && (
@@ -196,7 +271,7 @@ const WritePage = () => {
                 </label>
               </button>
               {thumbnail && (
-                <button className={styles.addButton} onClick={handleDeleteImage}>
+                <button className={styles.deleteButton} onClick={handleDeleteImage}>
                   Delete Image
                 </button>
               )}
@@ -204,52 +279,61 @@ const WritePage = () => {
                 <RiFolderAddFill className={styles.plus} />
               </button>
               <button className={styles.addButton}>
-               
-              <BiSolidVideoPlus className={styles.plus} />
-          </button>
+                <BiSolidVideoPlus className={styles.plus} />
+              </button>
+            </div>
+          )}
         </div>
-      )}
+        <ReactQuill
+          ref={quillRef}
+          className={styles.textArea}
+          theme="bubble"
+          value={value}
+          onChange={setValue}
+          placeholder="Tell your story..."
+          modules={quillModules}
+        />
+      </div>
+      <div className={styles.metadataContainer}>
+        {thumbnail && (
+          <div className={styles.thumbnailContainer}>
+            <Image
+              src={thumbnail}
+              alt="Thumbnail"
+              className={styles.thumbnail}
+              width={200}
+              height={200}
+            />
+          </div>
+        )}
+        <input
+          type="text"
+          placeholder="Metadata"
+          className={styles.metadataInput}
+          value={metadata}
+          onChange={(e) => setMetadata(e.target.value)}
+          onFocus={handleMetadataFocus}
+        />
+      </div>
+      {autosaving && <div className={styles.autosaveIndicator}>Autosaving...</div>}
+      {autosaved && <div className={styles.autosaveIndicator}>Autosaved</div>}
+      <button className={styles.publish} onClick={handleSubmit}>
+        Publish
+      </button>
     </div>
-    <ReactQuill
-      ref={quillRef}
-      className={styles.textArea}
-      theme="bubble"
-      value={value}
-      onChange={setValue}
-      placeholder="Tell your story..."
-      modules={quillModules}
-    />
-  </div>
-  {autosaving && <div className={styles.autosaveIndicatorSaving}>Autosaving...</div>}
-  {autosaved && <div className={styles.autosaveIndicator} >Autosaved</div>}
-  {thumbnail && (
-    <div className={styles.thumbnailContainer}>
-      <Image
-        src={thumbnail}
-        alt="Thumbnail"
-        className={styles.thumbnail}
-        width={200}
-        height={200}
-      />
-    </div>
-  )}
-  <button className={styles.publish} onClick={handleSubmit}>
-    Publish
-  </button>
-</div>
-);
+  );
 };
 
 const quillModules = {
-toolbar: [
-  [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
-  [{ size: [] }],
-  ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-  [{ 'list': 'ordered' }, { 'list': 'bullet' },
-  { 'indent': '-1' }, { 'indent': '+1' }],
-  ['link', 'image', 'video'],
-  ['clean']
-]
+  toolbar: [
+    [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
+    [{ size: [] }],
+    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+    [{ 'list': 'ordered' }, { 'list': 'bullet' },
+    { 'indent': '-1' }, { 'indent': '+1' }],
+    ['link', 'image', 'video'],
+    ['clean']
+  ]
 };
 
 export default WritePage;
