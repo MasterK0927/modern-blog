@@ -1,7 +1,7 @@
 "use client"
 import { useEffect, useState, useRef } from "react";
 import dynamic from "next/dynamic";
-import { useRouter } from "next/compat/router";
+import { useRouter } from "next/navigation";
 import "react-quill/dist/quill.bubble.css";
 import { FaPlus } from "react-icons/fa";
 import { MdAddPhotoAlternate } from "react-icons/md";
@@ -50,7 +50,7 @@ const WritePage = () => {
   useEffect(() => {
     if (status === 'loading') return;
     if (!session) {
-      router.push('/'); // Redirect to custom error page
+      router.push('/404'); // Redirect to custom error page
     }
   }, [session, status, router]);
 
