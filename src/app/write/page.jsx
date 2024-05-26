@@ -22,6 +22,7 @@ import { app } from "@/utils/firebase";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import styles from "./writePage.module.css";
 import Image from "next/image";
+import PreviewModal from "@/components/previewModal/previewModal";
 
 const WritePage = () => {
   const { data: session, status } = useSession();
@@ -41,6 +42,7 @@ const WritePage = () => {
   const fileInputRef = useRef(null);
   const ImageName = useRef(null);
   const [rotate, setRotate] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
 
   const handleClick = () => {
     setOpen(!open);
@@ -228,6 +230,14 @@ const WritePage = () => {
     }
   };
 
+  const handlePreview = () => {
+    setShowPreview(true);
+  };
+
+  const handleClosePreview = () => {
+    setShowPreview(false);
+  };
+
   if (status === 'loading') {
     return <div className={styles.loading}>Loading...</div>;
   }
@@ -278,11 +288,8 @@ const WritePage = () => {
                   Delete Image
                 </button>
               )}
-              <button className={styles.addButton}>
-                <RiFolderAddFill className={styles.plus} />
-              </button>
-              <button className={styles.addButton}>
-                <BiSolidVideoPlus className={styles.plus} />
+              <button className={styles.preview} onClick={handlePreview}>
+                Preview
               </button>
             </div>
           )}
@@ -323,6 +330,19 @@ const WritePage = () => {
       <button className={styles.publish} onClick={handleSubmit}>
         Publish
       </button>
+      {showPreview && (
+        <div className={styles.previewModal}>
+
+          <PreviewModal
+            title={title}
+            content={value}
+            thumbnail={thumbnail}
+            catSlug={catSlug}
+            onClose={handleClosePreview}
+          />
+
+        </div>
+      )}
     </div>
   );
 };
