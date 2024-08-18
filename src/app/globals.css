@@ -22,7 +22,7 @@ a {
 }
 
 .dark {
-  --bg: #0f172a;
+  --bg: linear-gradient( 109.6deg, rgb(3, 39, 43) 11.2%, rgba(0,0,0,1) 91.1% );
   --textColor: #ddd;
   --softBg: #1f273a;
   --softTextColor: #a6a6a6;
@@ -37,7 +37,7 @@ a {
 
 .container {
   min-height: 100vh;
-  background-color: var(--bg);
+  background-image: var(--bg);
   color: var(--textColor);
 }
 

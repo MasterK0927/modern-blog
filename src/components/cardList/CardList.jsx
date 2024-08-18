@@ -1,18 +1,18 @@
-import React from "react";
-import styles from "./cardList.module.css";
-import Pagination from "../pagination/Pagination";
-import Card from "../card/Card";
+import React from 'react';
+import styles from './cardList.module.css';
+import Pagination from '../pagination/Pagination';
+import Card from '../card/Card';
 
 const getData = async (page, cat) => {
   const res = await fetch(
-    `https://keshavwrites.netlify.app/api/posts?page=${page}&cat=${cat || ""}`,
+    `https://keshavwrites.netlify.app/api/posts?page=${page}&cat=${cat || ''}`,
     {
-      cache: "no-store",
-    }
+      cache: 'no-store',
+    },
   );
 
   if (!res.ok) {
-    throw new Error("Failed");
+    throw new Error('Failed');
   }
 
   return res.json();

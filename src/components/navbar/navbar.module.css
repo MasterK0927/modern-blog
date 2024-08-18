@@ -153,7 +153,11 @@
   }
 
   .icon .hiddenLogo{
-    transform: translateY(-6px);
+    transform: translateY(0px);
+  }
+
+  .icon .txt{
+    font-size: 25px;
   }
 
   .icon .logoText{
