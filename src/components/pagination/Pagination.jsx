@@ -15,7 +15,7 @@ const Pagination = ({ page, hasPrev, hasNext }) => {
     try {
       setTimeout(() => {
         setLoading(false);
-      }, 15000);
+      }, 10000);
     } catch (error) {
       console.error('Error:', error);
       setLoading(false);

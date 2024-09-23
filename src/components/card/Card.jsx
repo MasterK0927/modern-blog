@@ -30,7 +30,13 @@ const Card = ({ item }) => {
       <div className={styles.container}>
         {item.img && (
           <div className={styles.imageContainer}>
-            <Image src={item.img} alt="" fill className={styles.image} />
+            <Image
+              src={item.img}
+              alt=""
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              className={styles.image}
+            />
           </div>
         )}
         <div className={styles.textContainer}>

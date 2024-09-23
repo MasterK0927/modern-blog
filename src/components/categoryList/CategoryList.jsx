@@ -1,15 +1,15 @@
-import React from "react";
-import styles from "./categoryList.module.css";
-import Link from "next/link";
-import Image from "next/image";
+import React from 'react';
+import styles from './categoryList.module.css';
+import Link from 'next/link';
+import Image from 'next/image';
 
 const getData = async () => {
-  const res = await fetch("https://keshavwrites.netlify.app/api/categories", {
-    cache: "no-store",
+  const res = await fetch('https://keshavwrites.netlify.app/api/categories', {
+    cache: 'no-store',
   });
 
   if (!res.ok) {
-    throw new Error("Failed");
+    throw new Error('Failed');
   }
 
   return res.json();
@@ -23,7 +23,7 @@ const CategoryList = async () => {
       <div className={styles.categories}>
         {data?.map((item) => (
           <Link
-            href="/blog?cat=style"
+            href={`/blog?cat=${item.slug}`}
             className={`${styles.category} ${styles[item.slug]}`}
             key={item._id}
           >

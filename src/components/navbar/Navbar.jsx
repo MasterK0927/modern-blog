@@ -51,7 +51,7 @@ const Navbar = () => {
             <TiContacts />
           </div>
         </Link>
-        <Link href="/" className={styles.link}>
+        <Link href="/about" className={styles.link}>
           <div className={styles.linkText}>About</div>
           <div className={styles.hidden}>
             <MdDeveloperMode />
