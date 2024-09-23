@@ -47,11 +47,11 @@ const Card = ({ item }) => {
             <span className={styles.category}>{item.catSlug}</span>
           </div>
           <Link href={`/posts/${item.slug}`}>
-            <h1>{item.title}</h1>
+            <h1 className={styles.title}>{item.title}</h1>
           </Link>
           <div
             className={styles.desc}
-            dangerouslySetInnerHTML={{ __html: item?.desc.substring(0, 60) }}
+            dangerouslySetInnerHTML={{ __html: item?.desc.substring(0, 109) }}
           />
           <button
             onClick={handleReadMore}

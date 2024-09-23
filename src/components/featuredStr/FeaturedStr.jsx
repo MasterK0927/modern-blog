@@ -23,7 +23,7 @@ const FeaturedStr = ({ cat }) => {
   const [page, setPage] = React.useState(1);
 
   const { data, error, isValidating } = useSWR(
-    `https://keshavwrites.netlify.app/api/posts?page=${page}&cat=${cat || ''}`,
+    `http://localhost:3001/api/posts?page=${page}&cat=${cat || ''}`,
     fetcher,
   );
 
@@ -41,7 +41,7 @@ const FeaturedStr = ({ cat }) => {
       if (data && Array.isArray(data.posts) && data.posts.length > 0) {
         setRandomIndex(Math.floor(Math.random() * data.posts.length));
       }
-    }, 300000);
+    }, 30000);
 
     return () => clearInterval(interval);
   }, [data, totalPages]);
@@ -51,6 +51,8 @@ const FeaturedStr = ({ cat }) => {
       <h1 className={styles.title}>
         <b>Hey, Keshav here!</b> Discover Stories and creative ideas
       </h1>
+      <br />
+      <h2 style={{ color: 'burlywood' }}>FEATURED</h2>
       <div>
         {isValidating && <p>Loading...</p>}
         {data && Array.isArray(data.posts) && data.posts.length > 0 ? (

@@ -22,30 +22,45 @@
 
 .category.style {
   background-color: #57c4ff31;
+  transition: 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.category:hover{
+  background-color: rgba(0, 0, 0, 0.178);
 }
 
 .category.fashion {
   background-color: #da85c731;
+  transition: 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 .category.food {
   background-color: #7fb88133;
+  transition: 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 .category .travel {
   background-color: #ff795736;
+  transition: 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 .category.culture {
   background-color: #ffb04f45;
+  transition: 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 .category.coding {
   background-color: #5e4fff31;
+  transition: 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 .image {
   border-radius: 50%;
+}
+
+.category:hover{
+  transition: 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  background-color: rgba(0, 0, 0, 0.178);
 }
 
 @media screen and (max-width: 1280px) {
@@ -63,8 +78,8 @@
     width: 45%;
   }
 }
-@media screen and (max-width: 640px) {
+/* @media screen and (max-width: 640px) {
   .category {
     width: 100%;
   }
-}
+} */
