@@ -23,7 +23,7 @@ const FeaturedStr = ({ cat }) => {
   const [page, setPage] = React.useState(1);
 
   const { data, error, isValidating } = useSWR(
-    `http://localhost:3001/api/posts?page=${page}&cat=${cat || ''}`,
+    `https://keshavwrites.netlify.app/api/posts?page=${page}&cat=${cat || ''}`,
     fetcher,
   );
 
