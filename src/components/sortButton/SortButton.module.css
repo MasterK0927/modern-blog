@@ -20,6 +20,10 @@
     display: flex;
     padding: 0 20px;
   }
+
+  .switch__button:focus{
+    outline: none;
+  }
   
   .switch__option {
     position: relative;
