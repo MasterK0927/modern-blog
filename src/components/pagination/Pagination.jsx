@@ -1,31 +1,23 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
-import Loading from '../LoadingComp/LoadingComp';
+import React, { useState } from 'react';
 import styles from './pagination.module.css';
+import { useRouter } from 'next/navigation';
+import Loading from '../LoadingComp/LoadingComp';
 
 const Pagination = ({ page, hasPrev, hasNext }) => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  useEffect(() => {
-    const handleRouteChangeStart = () => setLoading(true);
-    const handleRouteChangeComplete = () => setLoading(false);
-
-    router.events.on('routeChangeStart', handleRouteChangeStart);
-    router.events.on('routeChangeComplete', handleRouteChangeComplete);
-    router.events.on('routeChangeError', handleRouteChangeComplete);
-
-    return () => {
-      router.events.off('routeChangeStart', handleRouteChangeStart);
-      router.events.off('routeChangeComplete', handleRouteChangeComplete);
-      router.events.off('routeChangeError', handleRouteChangeComplete);
-    };
-  }, [router]);
-
   const handleNavigation = (direction) => {
-    router.push(`?page=${direction === 'prev' ? page - 1 : page + 1}`);
+    setLoading(true);
+    try {
+      router.push(`?page=${direction === 'prev' ? page - 1 : page + 1}`);
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (loading) {
