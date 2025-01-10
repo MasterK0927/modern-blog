@@ -9,15 +9,13 @@ const Pagination = ({ page, hasPrev, hasNext }) => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const handleNavigation = async (direction) => {
+  const handleNavigation = (direction) => {
     setLoading(true);
-    router.push(`?page=${direction === 'prev' ? page - 1 : page + 1}`);
     try {
-      setTimeout(() => {
-        setLoading(false);
-      }, 10000);
+      router.push(`?page=${direction === 'prev' ? page - 1 : page + 1}`);
     } catch (error) {
       console.error('Error:', error);
+    } finally {
       setLoading(false);
     }
   };
