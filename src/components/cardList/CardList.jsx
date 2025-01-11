@@ -4,13 +4,11 @@ import styles from './cardList.module.css';
 import Pagination from '../pagination/Pagination';
 import Card from '../card/Card';
 import SortButton from '../sortButton/SortButton';
-import Loading from '../LoadingComp/LoadingComp';
 
 const CardList = ({ page, cat }) => {
   const [sort, setSort] = useState('recent');
   const [posts, setPosts] = useState([]);
   const [count, setCount] = useState(0);
-  const [loading, setLoading] = useState(false);
   const POST_PER_PAGE = 2;
 
   useEffect(() => {
@@ -29,8 +27,7 @@ const CardList = ({ page, cat }) => {
         setCount(data.count);
       } catch (error) {
         console.error('Error fetching posts:', error);
-      } finally {
-        setLoading(false);
+        setPosts([]);
       }
     };
     fetchPosts();
@@ -39,10 +36,6 @@ const CardList = ({ page, cat }) => {
   const handleSortChange = (newSort) => {
     setSort(newSort);
   };
-
-  if (loading) {
-    return <Loading />;
-  }
 
   const hasPrev = POST_PER_PAGE * (page - 1) > 0;
   const hasNext = POST_PER_PAGE * (page - 1) + POST_PER_PAGE < count;
