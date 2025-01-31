@@ -13,7 +13,6 @@ const CardList = ({ page, cat }) => {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      setLoading(true);
       try {
         const res = await fetch(
           `/api/posts?page=${page}&cat=${cat || ''}&sort=${sort}`,
