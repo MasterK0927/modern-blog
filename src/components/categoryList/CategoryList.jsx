@@ -1,27 +1,37 @@
-import React from 'react';
-import styles from './categoryList.module.css';
-import Link from 'next/link';
-import Image from 'next/image';
+"use client";
 
-const getData = async () => {
-  const res = await fetch('https://keshavwrites.netlify.app/api/categories', {
-    cache: 'no-store',
-  });
+import { useEffect, useState } from "react";
+import styles from "./categoryList.module.css";
+import Link from "next/link";
+import Image from "next/image";
 
-  if (!res.ok) {
-    throw new Error('Failed');
-  }
+const CategoryList = () => {
+  const [data, setData] = useState([]);
+  const [error, setError] = useState(null);
 
-  return res.json();
-};
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch("https://keshavwrites.netlify.app/api/categories");
+        if (!res.ok) throw new Error("Failed to fetch categories");
+        const result = await res.json();
+        setData(result);
+      } catch (err) {
+        setError(err.message);
+      }
+    };
 
-const CategoryList = async () => {
-  const data = await getData();
+    fetchData();
+  }, []);
+
+  if (error) return <p>Error: {error}</p>;
+  if (!Array.isArray(data)) return <p>No categories available</p>;
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Popular Categories</h1>
       <div className={styles.categories}>
-        {data?.map((item) => (
+        {data.map((item) => (
           <Link
             href={`/blog?cat=${item.slug}`}
             className={`${styles.category} ${styles[item.slug]}`}
