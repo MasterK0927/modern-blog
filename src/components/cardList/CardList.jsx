@@ -26,7 +26,6 @@ const CardList = ({ page, cat }) => {
         setCount(data.count);
       } catch (error) {
         console.error('Error fetching posts:', error);
-        setPosts([]);
       }
     };
     fetchPosts();
