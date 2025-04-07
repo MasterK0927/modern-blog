@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import LoadingSpinner from '../LoadingComp/LoadingComp';
+import DOMPurify from 'isomorphic-dompurify';
+import parse from 'html-react-parser';
 
 const Card = ({ item }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -23,6 +25,13 @@ const Card = ({ item }) => {
       setIsLoading(false);
     }
   };
+
+  let truncatedDesc = '';
+  if (item?.desc) {
+    truncatedDesc = item.desc.substring(0, 109);
+    const sanitizedDesc = DOMPurify.sanitize(truncatedDesc);
+    truncatedDesc = sanitizedDesc ? parse(sanitizedDesc) : null;
+  }
 
   return (
     <>
@@ -49,10 +58,9 @@ const Card = ({ item }) => {
           <Link href={`/posts/${item.slug}`}>
             <h1 className={styles.title}>{item.title}</h1>
           </Link>
-          <div
-            className={styles.desc}
-            dangerouslySetInnerHTML={{ __html: item?.desc.substring(0, 109) }}
-          />
+          <div className={styles.desc}>
+            {truncatedDesc}
+          </div>
           <button
             onClick={handleReadMore}
             className={styles.link}

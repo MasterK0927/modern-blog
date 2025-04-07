@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Comments from '@/components/comments/Comments';
 import styles from '../posts/[slug]/singlePage.module.css';
+import parse from 'html-react-parser';
+import DOMPurify from 'isomorphic-dompurify';
 
 const getPostData = async (slug) => {
   try {
@@ -102,6 +104,9 @@ const Profile = ({ params }) => {
     return <div>Error: {error}</div>;
   }
 
+  const sanitizedContent = postData?.desc ? DOMPurify.sanitize(postData.desc) : '';
+  const parsedContent = sanitizedContent ? parse(sanitizedContent) : null;
+
   return (
     <div className={styles.container}>
       {postData && (
@@ -130,10 +135,9 @@ const Profile = ({ params }) => {
       <div className={styles.content}>
         {postData && (
           <div className={styles.post}>
-            <div
-              className={styles.description}
-              dangerouslySetInnerHTML={{ __html: postData?.desc }}
-            />
+            <div className={styles.description}>
+              {parsedContent}
+            </div>
             <div className={styles.comment}>
               <Comments postSlug={slug} />
             </div>
