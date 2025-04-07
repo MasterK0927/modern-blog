@@ -1,4 +1,5 @@
-// import Menu from "@/components/Menu/Menu";
+import DOMPurify from 'isomorphic-dompurify';
+import parse from 'html-react-parser';
 import styles from './singlePage.module.css';
 import Image from 'next/image';
 import Comments from '@/components/comments/Comments';
@@ -10,20 +11,20 @@ const getData = async (slug) => {
       cache: 'no-store',
     },
   );
-
   if (!res.ok) {
     throw new Error('Failed');
   }
-
   return res.json();
 };
 
 const SinglePage = async ({ params }) => {
   const { slug } = params;
-
   const data = await getData(slug);
   const { title, user, img, desc, createdAt } = data;
 
+  const sanitizedDesc = desc ? DOMPurify.sanitize(desc) : '';
+  const parsedDesc = sanitizedDesc ? parse(sanitizedDesc) : null;
+  
   const extractDatePart = (dateString) => {
     const date = new Date(dateString);
     const year = date.getFullYear();
@@ -31,9 +32,8 @@ const SinglePage = async ({ params }) => {
     const day = String(date.getDate()).padStart(2, '0');
     return `${day}-${month}-${year}`;
   };
-
   const datePart = extractDatePart(createdAt);
-
+  
   return (
     <div className={styles.container}>
       <div className={styles.infoContainer}>
@@ -64,15 +64,13 @@ const SinglePage = async ({ params }) => {
       </div>
       <div className={styles.content}>
         <div className={styles.post}>
-          <div
-            className={styles.description}
-            dangerouslySetInnerHTML={{ __html: desc }}
-          />
+          <div className={styles.description}>
+            {parsedDesc}
+          </div>
           <div className={styles.comment}>
             <Comments postSlug={slug} />
           </div>
         </div>
-        {/* <Menu /> */}
       </div>
     </div>
   );
