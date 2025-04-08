@@ -1,22 +1,26 @@
+import React, { Suspense, lazy } from 'react';
 import styles from './homepage.module.css';
-import CategoryList from '@/components/categoryList/CategoryList';
-import CardList from '@/components/cardList/CardList';
-// import Menu from '@/components/Menu/Menu';
-import FeaturedStr from '@/components/featuredStr/FeaturedStr';
-import ErrorBoundary from '@/components/ErrorBoundary';
+import Loading from '@/components/loading/Loading';
+
+const FeaturedStr = lazy(() => import('@/components/featuredStr/FeaturedStr'));
+const CategoryList = lazy(() => import('@/components/categoryList/CategoryList'));
+const CardList = lazy(() => import('@/components/cardList/CardList'));
 
 export default function Home({ searchParams }) {
   const page = parseInt(searchParams.page) || 1;
 
   return (
     <div className={styles.container}>
-      <FeaturedStr />
-      <CategoryList />
+      <Suspense fallback={<Loading />}>
+        <FeaturedStr />
+      </Suspense>
+      <Suspense fallback={<Loading />}>
+        <CategoryList />
+      </Suspense>
       <div className={styles.content}>
-        <ErrorBoundary>
+        <Suspense fallback={<Loading />}>
           <CardList page={page} />
-        </ErrorBoundary>
-        {/* <Menu /> */}
+        </Suspense>
       </div>
     </div>
   );
