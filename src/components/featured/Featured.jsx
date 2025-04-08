@@ -6,7 +6,6 @@ import DOMPurify from 'isomorphic-dompurify';
 import parse from 'html-react-parser';
 
 const Featured = ({ item, key }) => {
-  console.log('Featured: ', item);
 
   let parsedDesc = null;
   if (item?.desc && typeof item.desc === 'string') {
