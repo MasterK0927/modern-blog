@@ -1,23 +1,26 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './pagination.module.css';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import Loading from '../LoadingComp/LoadingComp';
 
 const Pagination = ({ page, hasPrev, hasNext }) => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    if (loading) {
+      setLoading(false);
+    }
+  }, [searchParams, loading]);
 
   const handleNavigation = (direction) => {
     setLoading(true);
-    try {
-      router.push(`?page=${direction === 'prev' ? page - 1 : page + 1}`);
-    } catch (error) {
-      console.error('Error:', error);
-    } finally {
-      setLoading(false);
-    }
+    const targetPage = direction === 'prev' ? page - 1 : page + 1;
+    router.push(`?page=${targetPage}`);
   };
 
   if (loading) {
