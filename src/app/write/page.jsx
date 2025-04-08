@@ -5,8 +5,6 @@ import { useRouter } from "next/navigation";
 import "react-quill/dist/quill.bubble.css";
 import { FaPlus } from "react-icons/fa";
 import { MdAddPhotoAlternate } from "react-icons/md";
-import { RiFolderAddFill } from "react-icons/ri";
-import { BiSolidVideoPlus } from "react-icons/bi";
 import { useSession } from "next-auth/react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -19,7 +17,7 @@ import {
 } from "firebase/storage";
 import { app } from "@/utils/firebase";
 
-const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false });
 import styles from "./writePage.module.css";
 import Image from "next/image";
 import PreviewModal from "@/components/previewModal/previewModal";
@@ -30,7 +28,7 @@ const WritePage = () => {
   const [file, setFile] = useState(null);
   const [media, setMedia] = useState("");
   const [thumbnail, setThumbnail] = useState("");
-  const [value, setValue] = useState("");
+  const [markdown, setMarkdown] = useState("");
   const [title, setTitle] = useState("");
   const [catSlug, setCatSlug] = useState("style");
   const [metadata, setMetadata] = useState("");
@@ -294,15 +292,16 @@ const WritePage = () => {
             </div>
           )}
         </div>
-        <ReactQuill
-          ref={quillRef}
-          className={styles.textArea}
-          theme="bubble"
-          value={value}
-          onChange={setValue}
-          placeholder="Tell your story..."
-          modules={quillModules}
-        />
+        <div data-color-mode="light" className={styles.markdownEditor}>
+          <MDEditor
+            value={markdown}
+            onChange={setMarkdown}
+            height={500}
+            preview="edit"
+            hideToolbar={false}
+            enableScroll={true}
+          />
+        </div>
       </div>
       <div className={styles.metadataContainer}>
         {thumbnail && (
@@ -345,18 +344,6 @@ const WritePage = () => {
       )}
     </div>
   );
-};
-
-const quillModules = {
-  toolbar: [
-    [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
-    [{ size: [] }],
-    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-    [{ 'list': 'ordered' }, { 'list': 'bullet' },
-    { 'indent': '-1' }, { 'indent': '+1' }],
-    ['link', 'image', 'video'],
-    ['clean']
-  ]
 };
 
 export default WritePage;
