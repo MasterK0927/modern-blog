@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import styles from './card.module.css';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import LoadingSpinner from '../LoadingComp/LoadingComp';
 import DOMPurify from 'isomorphic-dompurify';
@@ -16,15 +16,13 @@ const Card = ({ item }) => {
     e.preventDefault();
     setIsLoading(true);
     router.push(`/posts/${item.slug}`);
-    try {
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 5000);
-    } catch (error) {
-      console.error('Error:', error);
+  };
+
+  useEffect(() => {
+    return () => {
       setIsLoading(false);
     }
-  };
+  }, []);
 
   let truncatedDesc = '';
   if (item?.desc) {
