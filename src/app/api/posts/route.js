@@ -9,6 +9,12 @@ export const GET = async (req) => {
   const sort = searchParams.get('sort') || 'recent';
   const POST_PER_PAGE = 2;
 
+  console.error('GET request received', {
+    page,
+    cat,
+    sort,
+  });
+
   const query = {
     take: POST_PER_PAGE,
     skip: POST_PER_PAGE * (page - 1),
@@ -21,6 +27,8 @@ export const GET = async (req) => {
   };
 
   try {
+    await prisma.$connect();
+    console.log('Connected to the database');
     const [posts, count] = await prisma.$transaction([
       prisma.post.findMany(query),
       prisma.post.count({ where: query.where }),

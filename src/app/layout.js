@@ -1,10 +1,15 @@
-import Navbar from "@/components/navbar/Navbar";
+import React, { Suspense, lazy } from "react";
 import "./globals.css";
 import { Inter } from "next/font/google";
-import Footer from "@/components/footer/Footer";
 import { ThemeContextProvider } from "@/context/ThemeContext";
 import ThemeProvider from "@/providers/ThemeProvider";
 import AuthProvider from "@/providers/AuthProvider";
+
+const Navbar = lazy(() => import("@/components/navbar/Navbar"));
+const Footer = lazy(() => import("@/components/footer/Footer"));
+
+const NavbarFallback = () => <div style={{ height: '60px', width: '100%', background: 'rgba(0,0,0,0.05)' }}></div>;
+const FooterFallback = () => <div style={{ height: '100px', width: '100%', background: 'rgba(0,0,0,0.05)' }}></div>;
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,9 +27,13 @@ export default function RootLayout({ children }) {
             <ThemeProvider>
               <div className="container">
                 <div className="wrapper">
-                  <Navbar />
+                  <Suspense fallback={<NavbarFallback />}>
+                    <Navbar />
+                  </Suspense>
                   {children}
-                  <Footer />
+                  <Suspense fallback={<FooterFallback />}>
+                    <Footer />
+                  </Suspense>
                 </div>
               </div>
             </ThemeProvider>
